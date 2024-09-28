@@ -32,7 +32,7 @@ class CreateBase(BaseModel):
 
 class UpdateBase(BaseModel):
     # inherent to add more properties for updating
-    id: str
+    pass
 
 
 # response
@@ -41,7 +41,6 @@ class UpdateBase(BaseModel):
 # Properties shared by models stored in DB
 class InDBBase(BaseModel):
     id: str
-    user_id: str
     created_at: str
 
 

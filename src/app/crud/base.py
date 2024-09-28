@@ -1,3 +1,4 @@
+import json
 from typing import Generic, TypeVar
 
 from supabase_py_async import AsyncClient
@@ -27,6 +28,23 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         data, count = await db.table(self.model.table_name).select("*").execute()
         _, got = data
         return [self.model(**item) for item in got]
+    
+    async def get_by_date_range(
+        self, 
+        db: AsyncClient, 
+        start_date: str, 
+        end_date: str
+    ) -> list[ModelType]:
+        """get all by date range"""
+        data, count = (
+            await db.table(self.model.table_name)
+            .select("*")
+            .gte("created_at", start_date)
+            .lte("created_at", end_date)
+            .execute()
+        )
+        _, got = data
+        return [self.model(**item) for item in got]
 
     async def get_multi_by_owner(
         self, db: AsyncClient, *, user: UserIn
@@ -44,17 +62,23 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     async def create(self, db: AsyncClient, *, obj_in: CreateSchemaType) -> ModelType:
         """create by CreateSchemaType"""
         data, count = (
-            await db.table(self.model.table_name).insert(obj_in.model_dump()).execute()
+            await db.table(self.model.table_name).insert(json.loads(obj_in.model_dump_json())).execute()
         )
         _, created = data
         return self.model(**created[0])
 
     async def update(self, db: AsyncClient, *, obj_in: UpdateSchemaType) -> ModelType:
         """update by UpdateSchemaType"""
+        update_data = json.loads(obj_in.model_dump_json(exclude_unset=True, exclude_none=True))
+        
+        target_id = update_data.pop("id", None)
+        if id is None:
+            raise ValueError("ID must be provided for update operation")
+
         data, count = (
             await db.table(self.model.table_name)
-            .update(obj_in.model_dump())
-            .eq("id", obj_in.id)
+            .update(update_data)
+            .eq("id", target_id)
             .execute()
         )
         _, updated = data
