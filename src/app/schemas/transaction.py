@@ -32,6 +32,8 @@ class Transaction(ResponseBase):
     updated_at: Optional[datetime]
     description: str
     created_by: str
+    is_split: bool
+    category: str | None
 
 # Properties properties stored in DB
 class TransactionInDB(InDBBase):

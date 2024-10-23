@@ -6,30 +6,33 @@ from app.schemas.base import CreateBase, InDBBase, ResponseBase, UpdateBase
 # Properties to receive on item creation
 # in
 class TransactionParticipantsCreate(CreateBase):
+    table_name: ClassVar[str] = "TransactionParticipants"
     id: str
-    created_at: Optional[datetime]
+    created_at: Optional[datetime] = datetime.now()
     amount_owed: float
     transaction_id: str
     user_id: str
 
 # Properties to receive on item update
 # in
-class TransactionUpdate(UpdateBase):
-    id: Optional[str]
-    created_at: Optional[datetime]
-    amount_owed: Optional[float]
-    transaction_id: Optional[str]
-    user_id: Optional[str]
+class TransactionParticipantUpdate(UpdateBase):
+    table_name: ClassVar[str] = "TransactionParticipants"
+    id: str
+    created_at: Optional[datetime] = datetime.now()
+    amount_owed: Optional[float] = None
+    transaction_id: Optional[str] = None
+    user_id: Optional[str] = None
 
 # Properties to return to client
 # curd model
 # out
-class Transaction(ResponseBase):
+class TransactionParticipant(ResponseBase):
     table_name: ClassVar[str] = "TransactionParticipants"
+    created_at: datetime
     amount_owed: float
     transaction_id: str
     user_id: str
 
 # Properties properties stored in DB
-class TransactionInDB(InDBBase):
+class TransactionParticipantInDB(InDBBase):
     pass

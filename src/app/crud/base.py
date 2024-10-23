@@ -32,6 +32,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     async def get_by_date_range(
         self, 
         db: AsyncClient, 
+        group_id: str,
         start_date: str, 
         end_date: str
     ) -> list[ModelType]:
@@ -39,8 +40,10 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         data, count = (
             await db.table(self.model.table_name)
             .select("*")
+            .eq("group_id", group_id)
             .gte("created_at", start_date)
             .lte("created_at", end_date)
+            .order("created_at", desc=True)
             .execute()
         )
         _, got = data
@@ -54,6 +57,20 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             await db.table(self.model.table_name)
             .select("*")
             .eq("user_id", user.id)
+            .execute()
+        )
+        _, got = data
+        return [self.model(**item) for item in got]
+    
+    async def get_by_group_id(
+        self, db: AsyncClient, *, group_id: str
+    ) -> list[ModelType]:
+        """get by owner,use it  if rls failed to use"""
+        data, count = (
+            await db.table(self.model.table_name)
+            .select("*")
+            .eq("group_id", group_id)
+            .order("created_at", desc=True)
             .execute()
         )
         _, got = data

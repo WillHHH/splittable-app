@@ -1,6 +1,6 @@
 from gotrue import User, UserAttributes
 from pydantic import BaseModel
-
+from app.schemas.base import ResponseBase
 
 # Shared properties
 class Token(BaseModel):
@@ -26,6 +26,10 @@ class UserUpdate(UserAttributes):
 
 
 # response
+class User(ResponseBase):
+    avatar_url: str
+    name: str
+    email: str
 
 
 class UserInDBBase(BaseModel):
