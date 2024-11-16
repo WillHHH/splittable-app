@@ -12,6 +12,9 @@ class TransactionParticipantsCreate(CreateBase):
     amount_owed: float
     transaction_id: str
     user_id: str
+    is_payer: bool
+    total: float
+    group_id: str
 
 # Properties to receive on item update
 # in
@@ -31,7 +34,9 @@ class TransactionParticipant(ResponseBase):
     created_at: datetime
     amount_owed: float
     transaction_id: str
-    user_id: str
+    user_id: str    
+    is_payer: bool
+    total: float
 
 # Properties properties stored in DB
 class TransactionParticipantInDB(InDBBase):

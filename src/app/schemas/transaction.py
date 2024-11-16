@@ -9,6 +9,9 @@ class TransactionCreate(CreateBase):
     table_name: ClassVar[str] = "Transactions"
     created_at: Optional[datetime] = datetime.now()
     amount: float
+    is_split: bool
+    category: str
+    group_id: str
     description: str
     updated_at: Optional[datetime] = None
     created_by: str
@@ -33,6 +36,7 @@ class Transaction(ResponseBase):
     description: str
     created_by: str
     is_split: bool
+    group_id: str
     category: str | None
 
 # Properties properties stored in DB

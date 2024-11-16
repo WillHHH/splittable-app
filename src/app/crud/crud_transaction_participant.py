@@ -9,6 +9,9 @@ class CRUDTransactionParticipant(CRUDBase[TransactionParticipant, TransactionPar
     async def get_all(self, db: AsyncClient) -> list[TransactionParticipant]:
         return await super().get_all(db)
     
+    async def get_transactions_by_group_id(self, db: AsyncClient, group_id: str) -> list[TransactionParticipant]:
+        return await super().get_by_group_id(db, group_id=group_id)
+    
     async def create(self, db: AsyncClient, *, obj_in: TransactionParticipantsCreate) -> TransactionParticipant:
         return await super().create(db, obj_in=obj_in)
     
