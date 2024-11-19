@@ -56,13 +56,13 @@ async def get_current_user(access_token: AccessTokenDep) -> UserIn:
 CurrentUser = Annotated[UserIn, Depends(get_current_user)]
 
 
-async def get_db() -> AsyncClient:
+async def get_db(user: CurrentUser) -> AsyncClient:
     client: AsyncClient | None = None
     try:
         client = await create_client(
             settings.SUPABASE_URL,
             settings.SUPABASE_KEY,
-            # access_token=user.access_token,
+            access_token=user.access_token,
             options=ClientOptions(
                 postgrest_client_timeout=10, storage_client_timeout=10
             ),
