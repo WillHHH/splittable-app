@@ -24,4 +24,4 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: atticuszhou/supafast:latest
+          tags: wsh941102/splittable:latest
