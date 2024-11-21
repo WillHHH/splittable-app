@@ -31,4 +31,4 @@ ENV PYTHONPATH=/app
 EXPOSE 8080
 
 # 启动应用
-CMD exec uvicorn src.app.main:app --host ${HOST} --port ${PORT:-8080} --workers 1
+CMD exec uvicorn src.app.main:app --host ${HOST} --port ${PORT:-8080} --workers 1 --timeout-keep-alive 75
