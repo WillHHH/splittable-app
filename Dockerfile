@@ -30,5 +30,5 @@ ENV PYTHONPATH=/app
 # 暴露端口
 EXPOSE 8080
 
-# 启动应用
-CMD exec uvicorn src.app.main:app --host ${HOST} --port ${PORT:-8080} --workers 1 --timeout-keep-alive 75
+# 启动命令 - 使用最简单的配置
+CMD uvicorn src.app.main:app --host 0.0.0.0 --port $PORT

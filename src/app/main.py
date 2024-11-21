@@ -44,7 +44,7 @@ app = create_app()
 
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy"}
+    return {"status": "ok"}
 
 if __name__ == "__main__":
     host = "0.0.0.0"
