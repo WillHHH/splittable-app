@@ -1,32 +1,46 @@
 name: Deploy to Cloud Run
+
 on:
   push:
     branches:
       - main
 
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  REGION: asia-east1
+  SERVICE: fastapi-app
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
+
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
         with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
           
-      - name: Build and Push Image
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
+        
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+
+      - name: Build and Push Container
         run: |
-          gcloud builds submit --tag gcr.io/${{ secrets.GCP_PROJECT_ID }}/fastapi-app
-          
+          gcloud builds submit --tag gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.SERVICE }}
+
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy fastapi-app \
-            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/fastapi-app \
+          gcloud run deploy ${{ env.SERVICE }} \
+            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.SERVICE }} \
+            --region ${{ env.REGION }} \
             --platform managed \
-            --region asia-east1 \
             --allow-unauthenticated \
-            --memory 256Mi \
-            --cpu 1 \
-            --max-instances 1
+            --project ${{ secrets.GCP_PROJECT_ID }}
