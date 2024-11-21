@@ -7,7 +7,7 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  REGION: asia-east1
+  REGION: us-central1
   SERVICE: fastapi-app
 
 jobs:
