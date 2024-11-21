@@ -24,7 +24,6 @@ RUN poetry config virtualenvs.create false \
 COPY . .
 
 # 设置环境变量
-ENV PORT=8080
 ENV HOST=0.0.0.0
 ENV PYTHONPATH=/app
 
@@ -32,4 +31,4 @@ ENV PYTHONPATH=/app
 EXPOSE 8080
 
 # 启动应用
-CMD exec uvicorn src.app.main:app --host ${HOST} --port ${PORT}
+CMD exec uvicorn src.app.main:app --host ${HOST} --port 8080
