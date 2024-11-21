@@ -10,8 +10,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # 安装 pip 和 poetry
-RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir poetry==1.7.1
+RUN pip install --no-cache-dir --upgrade pip --root-user-action=ignore \
+    && pip install --no-cache-dir poetry==1.7.1 --root-user-action=ignore
 
 # 复制项目文件
 COPY pyproject.toml poetry.lock ./
