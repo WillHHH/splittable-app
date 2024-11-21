@@ -25,11 +25,11 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 COPY . /app
 
 # 设置环境变量
-ENV PORT=5000
+ENV PORT=8080
 
 
 # 暴露端口
-EXPOSE 5000
+EXPOSE 8080
 
 # 运行 FastAPI 应用
-CMD ["uvicorn", "src.app.main:app", "--host", "0.0.0.0", "--port", "5000"]
+CMD ["uvicorn", "src.app.main:app", "--host", "0.0.0.0", "--port", "8080"]
