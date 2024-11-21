@@ -25,9 +25,11 @@ COPY . .
 
 # 设置环境变量
 ENV PORT=8080
+ENV HOST=0.0.0.0
+ENV PYTHONPATH=/app
 
 # 暴露端口
 EXPOSE 8080
 
 # 启动应用
-CMD ["poetry", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD exec uvicorn src.app.main:app --host ${HOST} --port ${PORT}

@@ -36,4 +36,10 @@ jobs:
             --platform managed \
             --allow-unauthenticated \
             --project ${{ secrets.GCP_PROJECT_ID }} \
+            --timeout 300 \
+            --cpu 1 \
+            --memory 512Mi \
+            --min-instances 1 \
+            --set-env-vars="PORT=8080,HOST=0.0.0.0" \
+            --no-use-http2 \
             --quiet
