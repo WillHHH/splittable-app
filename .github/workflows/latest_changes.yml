@@ -47,11 +47,13 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install useful-scripts pre-commit
+          pip install pre-commit
+          poetry install
 
       - name: Run pre-commit hooks
-        run: pre-commit run --all-files
-        continue-on-error: true
+        run: |
+          poetry run pre-commit install
+          poetry run pre-commit run --all-files || true
 
       - name: Run the script for recently modified
         run: markdown --root ${{ github.workspace }} modify_recent --output ${{ github.workspace }}/README.md --num_commits 15 --dir docs --title "## 最近修改"
