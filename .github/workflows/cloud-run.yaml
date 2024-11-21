@@ -42,4 +42,6 @@ jobs:
             --min-instances 1 \
             --set-env-vars="HOST=0.0.0.0" \
             --no-use-http2 \
-            --quiet
+            --quiet \
+            --startup-timeout=180 \
+            --port=8080
