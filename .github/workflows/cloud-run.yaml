@@ -28,10 +28,6 @@ jobs:
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v2'
         
-      - name: 'Configure Docker and Artifact Registry'
-        run: |
-          gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
-          
       - name: 'Deploy to Cloud Run'
         run: |
           gcloud run deploy ${{ env.SERVICE }} \
@@ -39,4 +35,5 @@ jobs:
             --region ${{ env.REGION }} \
             --platform managed \
             --allow-unauthenticated \
-            --project ${{ secrets.GCP_PROJECT_ID }}
+            --project ${{ secrets.GCP_PROJECT_ID }} \
+            --quiet
