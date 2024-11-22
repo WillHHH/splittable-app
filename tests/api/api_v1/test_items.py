@@ -2,7 +2,7 @@
 import pytest
 from faker import Faker
 from starlette.testclient import TestClient
-from supabase_py_async import AsyncClient
+from supabase._async.client import AsyncClient
 
 from app.schemas import Token
 from tests.utils import get_auth_header

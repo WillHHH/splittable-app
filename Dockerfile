@@ -20,15 +20,17 @@ COPY pyproject.toml poetry.lock ./
 RUN poetry config virtualenvs.create false \
     && poetry install --no-interaction --no-ansi --no-root --only main
 
-# 复制应用代码
+# 复制应用代码和环境变量文件
 COPY . .
+COPY .env.example .env
 
 # 设置环境变量
 ENV HOST=0.0.0.0
+ENV PORT=8080
 ENV PYTHONPATH=/app
 
 # 暴露端口
 EXPOSE 8080
 
-# 启动命令 - 使用最简单的配置
-CMD uvicorn src.app.main:app --host 0.0.0.0 --port $PORT
+# 启动命令
+CMD uvicorn app.main:app --host 0.0.0.0 --port $PORT

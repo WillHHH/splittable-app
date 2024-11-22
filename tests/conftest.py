@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 from faker import Faker
 from fastapi.testclient import TestClient
 from pydantic import ConfigDict
-from supabase_py_async import AsyncClient, create_client
+from supabase._async.client import AsyncClient, create_client
 
 from app.main import app
 from app.schemas import Token
